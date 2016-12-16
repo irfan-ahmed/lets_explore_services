@@ -1,0 +1,311 @@
+/** Copyright 2016, Irfan Ahmed. All Rights Reserved **/
+
+$borderColor: #ddd;
+
+* {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "San Francisco", "Helvetica Neue", Tahoma, "Trebuchet MS", sans-serif;
+  font-size: 12px;
+  color: #333;
+}
+
+.absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 5px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 4px;
+}
+
+.main-container {
+  .help {
+    color: #5f9ea0;
+    padding: 5px 0;
+  }
+
+  .loader-small {
+    height: 18px;
+    width: 18px;
+  }
+
+  .masthead {
+    @extend .absolute;
+    bottom: initial;
+    height: 65px;
+    border-bottom: 2px solid $borderColor;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 15px;
+    background: #0a3557 url("../images/world.jpg") left center no-repeat;
+
+    h1 {
+      color: #4e8eb3;
+      padding-top: 12px;
+    }
+  }
+
+  .contents {
+    @extend .absolute;
+    top: 65px;
+    bottom: 40px;
+
+    .error {
+      background: #ffeff2;
+      padding: 10px;
+      border: 1px solid #e7d1d5;
+      border-radius: 4px;
+      color: #666;
+    }
+
+    .search-section {
+      @extend .absolute;
+      height: 85px;
+      bottom: initial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 15px 10px;
+
+      .search {
+        width: 50%;
+        border: 1px solid $borderColor;
+        border-radius: 5px;
+        padding: 6px;
+        font-size: 110%;
+      }
+
+      .placeInfoContainer {
+        color: #8bae62;
+        /* font-weight: bold; */
+        font-size: 16px;
+      }
+    }
+
+    .results-section {
+      @extend .absolute;
+      top: 86px;
+      display: flex;
+      border-top: 1px solid #f4f4f4;
+
+      .leftContainer {
+        width: 80%;
+        min-width: 150px;
+        display: flex;
+        justify-content: center;
+        padding: 10px 5px;
+        flex-wrap: wrap;
+        overflow: auto;
+        align-content: flex-start;
+        align-items: flex-start;
+        border-right: 2px solid #f4f4f4;
+      }
+
+      .rightContainer {
+        width: 20%;
+        min-width: 150px;
+        position: relative;
+
+        .weather, .events {
+          padding: 5px;
+          visibility: hidden;
+        }
+
+        .events {
+          @extend .absolute;
+          top: 54px;
+          border-top: 2px solid #f4f4f4;
+          display: flex;
+          flex-direction: column;
+          overflow: auto;
+
+          h4 {
+            color: #0082b0;
+          }
+
+          .loader {
+            align-self: center;
+          }
+
+          .event {
+            cursor: pointer;
+            border-bottom: 1px dotted #ccc;
+            padding: 2px 0;
+
+            h4 {
+              color: crimson;
+              margin-bottom: 2px;
+            }
+
+            .address {
+              color: #999;
+              font-size: 90%;
+            }
+          }
+
+          .event:last-child {
+            border-bottom: none;
+          }
+        }
+
+        .weather {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .temp {
+            font-size: 36px;
+            color: #0577ab;
+            padding-right: 10px;
+            border-right: 3px dotted #ededed;
+            font-style: italic;
+
+            .degrees {
+              vertical-align: super;
+              font-size: 17px;
+              padding-left: 5px;
+            }
+          }
+
+          .desc {
+            align-self: center;
+            padding-left: 10px;
+          }
+        }
+      }
+
+      .loader {
+        display: none;
+      }
+    }
+  }
+
+  .footer {
+    @extend .absolute;
+    top: initial;
+    height: 40px;
+    border-top: 2px solid #ddd;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-start;
+    padding: 0 10px;
+
+    a {
+      text-decoration: none;
+      color: #2c70ff;
+      padding-right: 7px;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .copyright {
+      font-size: 95%;
+    }
+  }
+}
+
+$tileRadius: 5px;
+.tile {
+  cursor: pointer;
+  width: 250px;
+  height: 250px;
+  border: 1px solid darken($borderColor, 10%);
+  background: transparent center center no-repeat;
+  position: relative;
+  margin: 5px 10px;
+  border-radius: $tileRadius;
+
+  .caption {
+    @extend .absolute;
+    height: 40px;
+    top: initial;
+    background: rgba(68, 68, 68, 0.92);
+    border-radius: 0 0 $tileRadius $tileRadius;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+
+    span.label {
+      display: inline-block;
+      width: 75%;
+      white-space: normal;
+      text-align: left;
+      font-weight: bold;
+      color: #f9f9f9;
+      padding-left: 0.6em;
+    }
+
+    span.rating {
+      padding-right: 0.6em;
+
+      span.star {
+        font-size: 70%;
+      }
+
+      span.filled {
+        color: #ffe966;
+      }
+    }
+  }
+
+  .icon {
+    @extend .absolute;
+    bottom: initial;
+    left: initial;
+    margin: 3px;
+    height: 26px;
+    background: #fff;
+    border-radius: 20px;
+  }
+}
+
+// thirdparty
+.eventful-badge,
+.eventful-badge * {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  text-align: center !important;
+  color: #CCC !important;
+  font-family: Arial !important;
+  text-decoration: none !important;
+}
+
+.eventful-large {
+  position: relative !important;
+  width: 140px !important;
+  font-size: 15px !important;
+  line-height: 17px !important;
+  font-weight: bold !important;
+}
+
+.eventful-medium {
+  position: relative !important;
+  width: 100px !important;
+  font-size: 12px !important;
+  line-height: 13px !important;
+}
+
+.eventful-small {
+  position: relative !important;
+  width: 100px !important;
+  font-size: 11px !important;
+  line-height: 11px !important;
+}

@@ -1,0 +1,633 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Lets Explore API</title>
+    <style type="text/css">
+      body {
+	font-family: Trebuchet MS, sans-serif;
+	font-size: 15px;
+	color: #444;
+	margin-right: 24px;
+}
+
+h1	{
+	font-size: 25px;
+}
+h2	{
+	font-size: 20px;
+}
+h3	{
+	font-size: 16px;
+	font-weight: bold;
+}
+hr	{
+	height: 1px;
+	border: 0;
+	color: #ddd;
+	background-color: #ddd;
+}
+
+.app-desc {
+  clear: both;
+  margin-left: 20px;
+}
+.param-name {
+  width: 100%;
+}
+.license-info {
+  margin-left: 20px;
+}
+
+.license-url {
+  margin-left: 20px;
+}
+
+.model {
+  margin: 0 0 0px 20px;
+}
+
+.method {
+  margin-left: 20px;
+}
+
+.method-notes	{
+	margin: 10px 0 20px 0;
+	font-size: 90%;
+	color: #555;
+}
+
+pre {
+  padding: 10px;
+  margin-bottom: 2px;
+}
+
+.http-method {
+ text-transform: uppercase;
+}
+
+pre.get {
+  background-color: #0f6ab4;
+}
+
+pre.post {
+  background-color: #10a54a;
+}
+
+pre.put {
+  background-color: #c5862b;
+}
+
+pre.delete {
+  background-color: #a41e22;
+}
+
+.huge	{
+	color: #fff;
+}
+
+pre.example {
+  background-color: #f3f3f3;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+code {
+  white-space: pre;
+}
+
+.nickname {
+  font-weight: bold;
+}
+
+.method-path {
+  font-size: 1.5em;
+  background-color: #0f6ab4;
+}
+
+.up {
+  float:right;
+}
+
+.parameter {
+  width: 500px;
+}
+
+.param {
+  width: 500px;
+  padding: 10px 0 0 20px;
+  font-weight: bold;
+}
+
+.param-desc {
+  width: 700px;
+  padding: 0 0 0 20px;
+  color: #777;
+}
+
+.param-type {
+  font-style: italic;
+}
+
+.param-enum-header {
+width: 700px;
+padding: 0 0 0 60px;
+color: #777;
+font-weight: bold;
+}
+
+.param-enum {
+width: 700px;
+padding: 0 0 0 80px;
+color: #777;
+font-style: italic;
+}
+
+.field-label {
+  padding: 0;
+  margin: 0;
+  clear: both;
+}
+
+.field-items	{
+	padding: 0 0 15px 0;
+	margin-bottom: 15px;
+}
+
+.return-type {
+  clear: both;
+  padding-bottom: 10px;
+}
+
+.param-header {
+  font-weight: bold;
+}
+
+.method-tags {
+  text-align: right;
+}
+
+.method-tag {
+  background: none repeat scroll 0% 0% #24A600;
+  border-radius: 3px;
+  padding: 2px 10px;
+  margin: 2px;
+  color: #FFF;
+  display: inline-block;
+  text-decoration: none;
+}
+
+    </style>
+  </head>
+  <body>
+  <h1>Lets Explore API</h1>
+    <div class="app-desc">Start exploring the world..</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0.0</div>
+    <div class="app-desc">BasePath:/api</div>
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Details">Details</a></h4>
+  <ul>
+  <li><a href="#placeDetailsGet"><code><span class="http-method">get</span> /place/details</code></a></li>
+  </ul>
+  <h4><a href="#Events">Events</a></h4>
+  <ul>
+  <li><a href="#placeEventsGet"><code><span class="http-method">get</span> /place/events</code></a></li>
+  </ul>
+  <h4><a href="#Photos">Photos</a></h4>
+  <ul>
+  <li><a href="#placePhotosGet"><code><span class="http-method">get</span> /place/photos</code></a></li>
+  </ul>
+  <h4><a href="#Sights">Sights</a></h4>
+  <ul>
+  <li><a href="#placeThingstodoGet"><code><span class="http-method">get</span> /place/thingstodo</code></a></li>
+  </ul>
+  <h4><a href="#Weather">Weather</a></h4>
+  <ul>
+  <li><a href="#placeWeatherGet"><code><span class="http-method">get</span> /place/weather</code></a></li>
+  </ul>
+
+  <h1><a name="Details">Details</a></h1>
+  <div class="method"><a name="placeDetailsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /place/details</code></pre></div>
+    <div class="method-summary">Get details for a place (<span class="nickname">placeDetailsGet</span>)</div>
+    <div class="method-notes">The API gets the details for a place. The place is identified by its reference. The place reference is available from the thindstodo API.</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">ref (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Place reference string for the sight </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PlaceDetails">PlaceDetails</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "country" : "aeiou",
+  "country_code" : "aeiou",
+  "offset" : 1.3579000000000001069366817318950779736042022705078125,
+  "city" : "aeiou",
+  "location" : {
+    "lng" : 1.3579000000000001069366817318950779736042022705078125,
+    "lat" : 1.3579000000000001069366817318950779736042022705078125
+  },
+  "state" : "aeiou",
+  "state_code" : "aeiou",
+  "url" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    An object with details for the place
+        <a href="#PlaceDetails">PlaceDetails</a>
+    <h4 class="field-label">0</h4>
+    Unexpected error
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Events">Events</a></h1>
+  <div class="method"><a name="placeEventsGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /place/events</code></pre></div>
+    <div class="method-summary">Get the events for a place (<span class="nickname">placeEventsGet</span>)</div>
+    <div class="method-notes">The API gets the events happening in the place of interest.</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">city (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the city </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Events">Events</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "events" : [ {
+    "venue" : {
+      "address" : "aeiou",
+      "name" : "aeiou",
+      "url" : "aeiou"
+    },
+    "city" : "aeiou",
+    "title" : "aeiou",
+    "url" : "aeiou"
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    An object with events happening in the place
+        <a href="#Events">Events</a>
+    <h4 class="field-label">0</h4>
+    Unexpected error
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Photos">Photos</a></h1>
+  <div class="method"><a name="placePhotosGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /place/photos</code></pre></div>
+    <div class="method-summary">Get the URL for a photo (<span class="nickname">placePhotosGet</span>)</div>
+    <div class="method-notes">The API gets the URL for the photo reference. The URL can be set as the src attribute for an img tag to see the photo for the reference.</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">photo_reference (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Photo reference string for the sight </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#PhotoSrc">PhotoSrc</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "src" : "aeiou"
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    An object with src of the photo
+        <a href="#PhotoSrc">PhotoSrc</a>
+    <h4 class="field-label">0</h4>
+    Unexpected error
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Sights">Sights</a></h1>
+  <div class="method"><a name="placeThingstodoGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /place/thingstodo</code></pre></div>
+    <div class="method-summary">List of sights to see for a given place (<span class="nickname">placeThingstodoGet</span>)</div>
+    <div class="method-notes">The thingstodo endpoint returns information about the sights to see for a given place name. The name can be a city name or to get more specific results, one can provide the city, state, country name also.
+</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">place (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the place </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Sights">Sights</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "place" : "aeiou",
+  "list" : [ {
+    "formatted_address" : "aeiou",
+    "name" : "aeiou",
+    "geometry" : "{}",
+    "photos" : [ {
+      "photo_reference" : "aeiou"
+    } ]
+  } ]
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    An object containing the place and list of sights to visit
+        <a href="#Sights">Sights</a>
+    <h4 class="field-label">0</h4>
+    Unexpected error
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Weather">Weather</a></h1>
+  <div class="method"><a name="placeWeatherGet"/>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /place/weather</code></pre></div>
+    <div class="method-summary">Get the weather for a place (<span class="nickname">placeWeatherGet</span>)</div>
+    <div class="method-notes">The API gets the weather for a place. The place can be the name of a city of a complete address of a place.</div>
+
+
+
+
+
+    <h3 class="field-label">Query parameters</h3>
+    <div class="field-items">
+      <div class="param">city (required)</div>
+
+      <div class="param-desc"><span class="param-type">Query Parameter</span> &mdash; Name of the city </div>
+    </div>  <!-- field-items -->
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Weather">Weather</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "weather" : {
+    "main" : {
+      "temp" : 1.3579000000000001069366817318950779736042022705078125
+    }
+  }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="heaader">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    An object with weather of the place
+        <a href="#Weather">Weather</a>
+    <h4 class="field-label">0</h4>
+    Unexpected error
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+
+  <div class="up"><a href="#__Models">Up</a></div>
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#Error"><code>Error</code></a></li>
+    <li><a href="#Event"><code>Event</code></a></li>
+    <li><a href="#Events"><code>Events</code></a></li>
+    <li><a href="#Location"><code>Location</code></a></li>
+    <li><a href="#Photo"><code>Photo</code></a></li>
+    <li><a href="#PhotoSrc"><code>PhotoSrc</code></a></li>
+    <li><a href="#PlaceDetails"><code>PlaceDetails</code></a></li>
+    <li><a href="#Sight"><code>Sight</code></a></li>
+    <li><a href="#Sights"><code>Sights</code></a></li>
+    <li><a href="#Venue"><code>Venue</code></a></li>
+    <li><a href="#Weather"><code>Weather</code></a></li>
+    <li><a href="#weather_main"><code>weather_main</code></a></li>
+    <li><a href="#weather_weather"><code>weather_weather</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3 class="field-label"><a name="Error">Error - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">code (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span>  format: int32</div>
+<div class="param">message (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">fields (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Event">Event - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URL for the event </div>
+<div class="param">city (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the city in which the event is </div>
+<div class="param">title (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the event </div>
+<div class="param">venue (optional)</div><div class="param-desc"><span class="param-type"><a href="#Venue">Venue</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Events">Events - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">events (optional)</div><div class="param-desc"><span class="param-type"><a href="#Event">array[Event]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Location">Location - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">lat (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Latitude for the place </div>
+<div class="param">lng (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> Longitude for the place </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Photo">Photo - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">photo_reference (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The reference of the photo for the sight. Use this in the photos API to get the URL for the photo </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PhotoSrc">PhotoSrc - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">src (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The src for the photo </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="PlaceDetails">PlaceDetails - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URL for the place </div>
+<div class="param">offset (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> UTC time offset for the place </div>
+<div class="param">location (optional)</div><div class="param-desc"><span class="param-type"><a href="#Location">Location</a></span>  </div>
+<div class="param">city (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the city </div>
+<div class="param">state (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the state </div>
+<div class="param">state_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Postal code for the state </div>
+<div class="param">country (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the country the place is in </div>
+<div class="param">country_code (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Code for the country </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Sight">Sight - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">formatted_address (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The address for the place </div>
+<div class="param">geometry (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">Object</a></span> Contains latitude and longitude for the location </div>
+<div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the sight to visit </div>
+<div class="param">photos (optional)</div><div class="param-desc"><span class="param-type"><a href="#Photo">array[Photo]</a></span> Array of photo references that can be furnished to photos API to get the photo URL for the sight. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Sights">Sights - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">place (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The input name of the place </div>
+<div class="param">list (optional)</div><div class="param-desc"><span class="param-type"><a href="#Sight">array[Sight]</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Venue">Venue - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Venue of the event</div>
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the venue </div>
+<div class="param">address (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Address for the venue </div>
+<div class="param">url (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> URL for venue </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="Weather">Weather - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>The weather for a place</div>
+    <div class="field-items">
+      <div class="param">weather (optional)</div><div class="param-desc"><span class="param-type"><a href="#weather_weather">weather_weather</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="weather_main">weather_main - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>Temperature information for the place</div>
+    <div class="field-items">
+      <div class="param">temp (optional)</div><div class="param-desc"><span class="param-type"><a href="#number">BigDecimal</a></span> The temperature in F </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3 class="field-label"><a name="weather_weather">weather_weather - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">main (optional)</div><div class="param-desc"><span class="param-type"><a href="#weather_main">weather_main</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>

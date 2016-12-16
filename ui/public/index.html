@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size:12px;">
+  <head>
+    <meta charset="UTF-8">
+    <title>Things To Do!</title>
+    <link href="css/main.css" rel="stylesheet"/>
+    <script data-main="js/app" src="js/lib/require.js"></script>
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="masthead">
+        <h1>
+          <img src="images/sitename.png" title="Lets Explore!!"/>
+        </h1>
+      </div>
+      <div class="contents">
+        <div class="search-section">
+          <input type="search" id="search" class="search"/>
+          <div class="help">Type in the name of a city you plan to visit and hit enter.</div>
+          <div class="placeInfoContainer" id="placeInfoContainer"></div>
+        </div>
+        <div class="results-section">
+          <div class="leftContainer" id="placesContainer">
+            <img src="images/spinner.gif" class="loader" id="loader"/>
+          </div>
+          <div class="rightContainer">
+            <div id="weatherContainer" class="weather">
+              <img src="images/spinner.gif" class="loader loader-small" id="weatherLoader"/>
+            </div>
+            <div id="eventsContainer" class="events">
+              <h4>Events</h4>
+              <img src="images/spinner.gif" class="loader loader-small" id="eventsLoader"/>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <span class="copyright">Copyright &copy; 2016, Irfan Ahmed. All Rights Reserved</span>
+        <span class="links">
+          <a href="docs/index.html" target="_blank">API Docs</a>
+          <a href="https://github.com/irfan-ahmed/lets_explore" target="_blank">Source</a>
+          <a href="https://github.com/irfan-ahmed/lets_explore/blob/master/LICENSE" target="_blank">MIT License</a>
+          <a href="https://github.com/irfan-ahmed/lets_explore/blob/master/THIRDPARTY.md" target="_blank">Credits</a>
+        </span>
+        <div class="eventful-badge eventful-small">
+          <img src="http://api.eventful.com/images/powered/eventful_58x20.gif"
+               alt="Local Events, Concerts, Tickets">
+          <p><a href="http://eventful.com/">Events</a> by Eventful</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

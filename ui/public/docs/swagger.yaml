@@ -1,0 +1,264 @@
+# Copyright 2016, Irfan Ahmed. 
+# APIs for the explorer application
+swagger: '2.0'
+info:
+  title: Lets Explore API
+  description: Start exploring the world..
+  version: "1.0.0"
+# the domain of the service
+host: thingstodo-152315.appspot.com
+# array of all schemes that your API supports
+schemes:
+  - https
+# will be prefixed to all paths
+basePath: /api
+produces:
+  - application/json
+paths:
+  /place/thingstodo:
+    get:
+      summary: List of sights to see for a given place
+      description: |
+        The thingstodo endpoint returns information about the sights to see for a given place name. The name can be a city name or to get more specific results, one can provide the city, state, country name also.
+      parameters:
+        - name: place
+          in: query
+          description: Name of the place
+          required: true
+          type: string
+      tags:
+        - Sights
+      responses:
+        200:
+          description: An object containing the place and list of sights to visit
+          schema:
+            $ref: '#/definitions/Sights'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /place/details:
+    get:
+      summary: Get details for a place
+      description: 
+        The API gets the details for a place. The place is identified by its reference. The place reference is available from the thindstodo API.
+      parameters:
+        - name: ref
+          in: query
+          description: Place reference string for the sight
+          required: true
+          type: string
+      tags:
+        - Details
+      responses:
+        200:
+          description: An object with details for the place
+          schema:
+            $ref: '#/definitions/PlaceDetails'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /place/photos:
+    get:
+      summary: Get the URL for a photo
+      description: 
+        The API gets the URL for the photo reference. The URL can be set as the src attribute for an img tag to see the photo for the reference.
+      parameters:
+        - name: photo_reference
+          in: query
+          description: Photo reference string for the sight
+          required: true
+          type: string
+      tags:
+        - Photos
+      responses:
+        200:
+          description: An object with src of the photo
+          schema:
+            $ref: '#/definitions/PhotoSrc'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /place/weather:
+    get:
+      summary: Get the weather for a place
+      description: 
+        The API gets the weather for a place. The place can be the name of a city of a complete address of a place.
+      parameters:
+        - name: city
+          in: query
+          description: Name of the city
+          required: true
+          type: string
+      tags:
+        - Weather
+      responses:
+        200:
+          description: An object with weather of the place
+          schema:
+            $ref: '#/definitions/Weather'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /place/events:
+    get:
+      summary: Get the events for a place
+      description: 
+        The API gets the events happening in the place of interest. 
+      parameters:
+        - name: city
+          in: query
+          description: Name of the city
+          required: true
+          type: string
+      tags:
+        - Events
+      responses:
+        200:
+          description: An object with events happening in the place
+          schema:
+            $ref: '#/definitions/Events'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Sights:
+    type: object
+    properties:
+      place:
+        type: string
+        description: The input name of the place
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Sight'
+  Sight:
+    type: object
+    properties:
+      formatted_address:
+        type: string
+        description: The address for the place
+      geometry:
+        type: object
+        description: Contains latitude and longitude for the location
+      name:
+        type: string
+        description: The name of the sight to visit
+      photos: 
+        type: array
+        items:
+          $ref: '#/definitions/Photo'
+        description: Array of photo references that can be furnished to photos API to get the photo URL for the sight.
+  Photo:
+    type: object
+    properties:
+      photo_reference:
+        type: string
+        description: The reference of the photo for the sight. Use this in the photos API to get the URL for the photo
+  PhotoSrc:
+    type: object
+    properties:
+      src:
+        type: string
+        description: The src for the photo
+  PlaceDetails:
+    type: object
+    properties:
+      url:
+        type: string
+        description: URL for the place
+      offset:
+        type: number
+        description: UTC time offset for the place
+      location:
+        $ref: "#/definitions/Location"
+      city:
+        type: string
+        description: Name of the city
+      state:
+        type: string
+        description: Name of the state
+      state_code:
+        type: string
+        description: Postal code for the state
+      country:
+        type: string
+        description: Name of the country the place is in
+      country_code:
+        type: string
+        description: Code for the country
+  Location:
+    type: object
+    properties:
+      lat:
+        type: number
+        description: Latitude for the place
+      lng:
+        type: number
+        description: Longitude for the place
+  Weather:
+    type: object
+    description: The weather for a place
+    properties:
+      weather:
+        $ref: '#/definitions/weather_weather'
+  weather_weather:
+    type: object
+    properties:
+      main:
+        $ref: '#/definitions/weather_main'
+  weather_main:
+    type: object
+    description: Temperature information for the place
+    properties:
+      temp:
+        type: number
+        description: The temperature in F
+  Events:
+    type: object
+    properties:
+      events: 
+        type: array
+        items:
+          $ref: "#/definitions/Event"
+  Event:
+    type: object
+    properties:
+      url:
+        type: string
+        description: URL for the event
+      city:
+        type: string
+        description: Name of the city in which the event is
+      title:
+        type: string
+        description: Name of the event
+      venue:
+        $ref: "#/definitions/Venue"
+  Venue:
+    type: object
+    description: Venue of the event
+    properties:
+      name:
+        type: string
+        description: Name of the venue
+      address:
+        type: string
+        description: Address for the venue
+      url:
+        type: string
+        description: URL for venue
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

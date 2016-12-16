@@ -1,0 +1,26 @@
+{
+  "name": "events_service",
+  "version": "1.0.0",
+  "description": "A service that shows the events happening in a place.",
+  "main": "events_service.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/irfan-ahmed/lets_explore_services.git"
+  },
+  "keywords": [
+    "events",
+    "service"
+  ],
+  "author": "Irfan Ahmed",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "minimist": "^1.2.0",
+    "request": "^2.79.0",
+    "when": "^3.7.7"
+  }
+}
