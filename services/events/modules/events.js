@@ -4,7 +4,7 @@
 var when = require("when");
 var request = require("request");
 
-var API_KEY = require("../config").keys.EVENTS;
+var API_KEY = require("../config").key;
 
 module.exports.listEvents = function (place, proxy) {
   if (!place || !place.city) {

@@ -5,7 +5,7 @@
 var when = require("when");
 var request = require("request");
 
-var API_KEY = require("../config").keys.GOOGLE;
+var API_KEY = require("../config").key;
 
 module.exports.photos = function (params, proxy) {
   var ref = params.photo_reference;
