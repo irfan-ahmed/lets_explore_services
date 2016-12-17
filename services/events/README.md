@@ -1,15 +1,12 @@
 ## Events Service
 
 #### Config
-Before deployment, make sure you have created a `config.js` file containing the following
+Before deployment, make sure you have update the API_KEY for the eventful API
 
-1. __key__: The key for the eventful API
-2. __port__: The port on which to run the service at
-
-##### Example config.js
+##### config.js
 ```
 module.exports = {
-  key: "YOUR_EVENTFUL_API_KEY",
+  key: "API_KEY",
   port: 8083
 };
 ```

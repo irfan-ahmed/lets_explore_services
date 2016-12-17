@@ -2,7 +2,7 @@
 
 main() {
     init
-    build_ui
+    #build_ui
     build_services
 }
 
@@ -24,12 +24,21 @@ build_services() {
     do
         local service_name="${dir}-service:v1"
         local image_name=gcr.io/$PROJECT_ID/${service_name}
+        local apiKey=${dir}_API_KEY
+        eval API_KEY_VALUE=\$$apiKey
+        echo "API_Key for $dir ${API_KEY_VALUE}"
         echo "Building Service : $dir | $service_name | $image_name"
         docker rmi $image_name
         cd $ROOT/services/$dir
+        cat config.js > orig_config.js
+        sed -e "s/API_KEY/${API_KEY_VALUE}/" config.js >> $$config.js
+        cp $$config.js config.js
+        rm -f $$config.js
+        cat config.js
         cat Dockerfile
         docker build -t $image_name .
-        gcloud docker -- push $image_name
+        mv orig_config.js config.js
+        #gcloud docker -- push $image_name
         echo
         echo
     done

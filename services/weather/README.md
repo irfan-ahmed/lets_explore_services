@@ -1,15 +1,12 @@
 ## Weather Service
 
 #### Config
-Before deployment, make sure you have created a `config.js` file containing the following
+Before deployment, make sure you have update the API_KEY for the OpenWeatherMap API
 
-1. __key__: The key for the OpenWeatherMap API
-2. __port__: The port on which to run the service at
-
-##### Example config.js
+##### config.js
 ```
 module.exports = {
-  key: "YOUR_API_KEY",
-  port: 8081
+  key: "API_KEY",
+  port: 8083
 };
 ```
