@@ -11,7 +11,7 @@
     "containers": [
       {
         "name": "weather-service",
-        "image": "gcr.io/explorer-152713/weather-service:v7",
+        "image": "gcr.io/explorer-152713/weather-service:v8",
         "ports": [
           {
             "containerPort": 8081
@@ -20,7 +20,7 @@
       },
       {
         "name": "events-service",
-        "image": "gcr.io/explorer-152713/events-service:v7",
+        "image": "gcr.io/explorer-152713/events-service:v8",
         "ports": [
           {
             "containerPort": 8082
@@ -29,7 +29,7 @@
       },
       {
         "name": "places-service",
-        "image": "gcr.io/explorer-152713/places-service:v7",
+        "image": "gcr.io/explorer-152713/places-service:v8",
         "ports": [
           {
             "containerPort": 8083
