@@ -82,8 +82,8 @@ deploy_pod(){
     gcloud config set compute/zone us-central1-a
 
     # remove old artefacts
+    gcloud container clusters get-credentials $clusterName
     kubectl delete pod,service $podName
-    kubectl delete pod,service $uiPodName
     kubectl get pod $podName
 
     #gcloud container clusters delete $clusterName
@@ -94,14 +94,21 @@ deploy_pod(){
     #gcloud container clusters get-credentials $clusterName
     #sleep 10
 
-    # create Pod
+    # create services Pod on $clusterName
     kubectl create -f explorer-pod.json
-    kubectl create -f explorer-ui-pod.json
-    kubectl get pods
-
-
-    # expose pod externally
+    kubectl get pod $podName
+    # wait for pod to be ready
     kubectl expose pod $podName --type="LoadBalancer"
+    kubectl get services $podName
+
+    # create the UI pod on $uiClusterName
+    gcloud container clusters get-credentials $uiClusterName
+    kubectl delete pod,service $uiPodName
+    kubectl get pod $uiPodName
+    # wait for deletion
+    kubectl create -f explorer-ui-pod.json
+    kubectl get pod $uiPodName
+    # wait for pod to be ready
     kubectl expose pod $uiPodName --type="LoadBalancer"
     kubectl get services
 }
