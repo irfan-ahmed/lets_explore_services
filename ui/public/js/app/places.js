@@ -3,13 +3,13 @@
  */
 
 define([
-  "jquery", "app/http"
-], function ($, http) {
+  "jquery", "app/http", "app/services/WeatherService"
+], function ($, http, weather) {
   function Places() {
   }
 
   Places.prototype.getWeather = function (place) {
-    return http.get("/weather", {city: place});
+    return weather.get(place);
   };
 
   Places.prototype.listSights = function (place) {

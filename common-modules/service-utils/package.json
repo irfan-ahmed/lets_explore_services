@@ -1,0 +1,23 @@
+{
+  "name": "service-utils",
+  "version": "1.0.1",
+  "description": "Utils shared common to all services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/irfan-ahmed/lets_explore_services.git"
+  },
+  "keywords": [
+    "utils",
+    "service"
+  ],
+  "author": "Irfan Ahmed",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^2.6.3",
+    "when": "^3.7.7"
+  }
+}

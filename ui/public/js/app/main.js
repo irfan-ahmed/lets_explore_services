@@ -3,8 +3,9 @@
  */
 
 define([
-  "jquery", "app/places", "app/Tile", "app/EventTile"
-], function ($, Places, Tile, EventTile) {
+  "jquery", "app/Tile", "app/EventTile", "app/services/PlacesService", "app/services/WeatherService",
+  "app/services/EventsService"
+], function ($, Tile, EventTile, PlacesService, WeatherService, EventsService) {
   var $place = $("#place");
   var $loader = $("#loader");
   var $eventsLoader = $("#eventsLoader");
@@ -33,13 +34,13 @@ define([
     $weatherLoader.show();
     weatherContainer.css("visibility", "visible");
 
-    Places.listSights(place).then(function (results) {
+    PlacesService.sights(place).then(function (results) {
       $loader.hide();
       console.debug("Got Places: ", results);
-      if (results.list && results.list.length) {
-        renderWeather(results.list[0].formatted_address);
+      if (results && results.length) {
+        renderWeather(results[0].formatted_address);
         var tiles = [];
-        results.list.forEach(function (placeData, index) {
+        results.forEach(function (placeData) {
           var tile = new Tile(placeData, $("#placesContainer"), place);
           tile.render();
           tiles.push(tile);
@@ -55,7 +56,7 @@ define([
     function getDetails(tile) {
       return new Promise(function (resolve, reject) {
         tile.getDetails().then(function (details) {
-          placeDetails = (details.city && details.state && details.country);
+          var placeDetails = (details.city && details.state && details.country);
           if (placeDetails) {
             tile.renderPlaceInfo(details, placeInfoContainer).then(function () {
               resolve();
@@ -88,13 +89,13 @@ define([
     eventsContainer.find(".error").remove();
     $eventsLoader.show();
     eventsContainer.css("visibility", "visible");
-    Places.listEvents(place).then(function (data) {
-      console.debug("Got Events for", place, data);
-      data.events.forEach(function (event) {
+    EventsService.events(place).then(function (events) {
+      console.debug("Got Events for", place, events);
+      events.forEach(function (event) {
         var eventRow = new EventTile(event, eventsContainer);
         eventRow.render();
       });
-      if (!data.events.length) {
+      if (!events.length) {
         var noevents = $("<div/>").addClass("error").text("Oops.. There are no events available for this" +
           " location.");
         eventsContainer.append(noevents);
@@ -104,12 +105,13 @@ define([
   }
 
   function renderWeather(place) {
-    Places.getWeather(place).then(function (data) {
-      var temp = $("<div/>").addClass("temp").text(parseInt(data.weather.main.temp));
+    WeatherService.weather(place).then(function (weather) {
+      console.debug("Weather", place, weather, weatherContainer);
+      var temp = $("<div/>").addClass("temp").text(parseInt(weather.main.temp));
       temp.append($("<span/>").addClass("degrees").html("&deg;F"));
       weatherContainer.append(temp);
 
-      var description = data.weather.weather.map(function (desc) {
+      var description = weather.weather.map(function (desc) {
         var text = desc.main;
         if (desc.description && (desc.main.toLowerCase().trim() != desc.description.toLowerCase().trim())) {
           text += ", " + desc.description;

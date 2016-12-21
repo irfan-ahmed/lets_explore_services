@@ -2,11 +2,12 @@
 
 main() {
     init
-    #build_ui
-    build_services
+    build_ui
+    #build_services
 }
 
 init() {
+    . env.sh
     DIR=$(dirname $0)
     cd $DIR/..
     ROOT=${PWD}
@@ -17,28 +18,42 @@ init() {
     fi
     echo "Building Services for $PROJECT_ID"
     gcloud config set project $PROJECT_ID
+
+    # set the correct version
+    cd $ROOT/deploy
+    touch .version
+    local version=$(cat .version)
+    if [ -z "$version" ]; then
+        version=1
+    fi
+    OLD_TAG="v${version}"
+    version=$(($version+1))
+    NEW_TAG="v${version}"
+    echo "Tags: $OLD_TAG $NEW_TAG"
+    echo $version > .version
+    sed -e "s/$OLD_TAG/$NEW_TAG/g" explorer-pod.json > $$.json
+    cp $$.json explorer-pod.json
+    rm -f $$.json
+    sed -e "s/$OLD_TAG/$NEW_TAG/g" explorer-ui-pod.json > $$.json
+    cp $$.json explorer-ui-pod.json
+    rm -f $$.json
+    git commit -m "Updated tag from $OLD_TAG to $NEW_TAG" explorer-pod.json explorer-ui-pod.json
+    git push
 }
 
 build_services() {
     for dir in $(ls $ROOT/services)
     do
-        local service_name="${dir}-service:v1"
-        local image_name=gcr.io/$PROJECT_ID/${service_name}
-        local apiKey=${dir}_API_KEY
-        eval API_KEY_VALUE=\$$apiKey
-        echo "API_Key for $dir ${API_KEY_VALUE}"
+        local service_name="${dir}-service"
+        local image_name=gcr.io/$PROJECT_ID/${service_name}:${NEW_TAG}
         echo "Building Service : $dir | $service_name | $image_name"
-        docker rmi $image_name
         cd $ROOT/services/$dir
-        cat config.js > orig_config.js
-        sed -e "s/API_KEY/${API_KEY_VALUE}/" config.js >> $$config.js
-        cp $$config.js config.js
-        rm -f $$config.js
-        cat config.js
+        rm -rvf node_modules/service-utils
+        npm install
         cat Dockerfile
         docker build -t $image_name .
-        mv orig_config.js config.js
-        #gcloud docker -- push $image_name
+        gcloud docker -- push $image_name
+        docker rmi $image_name
         echo
         echo
     done
@@ -46,16 +61,49 @@ build_services() {
 
 build_ui() {
     local dir=ui
-    local service_name="${dir}-front-end:v1"
+    local service_name="${dir}-front-end:${NEW_TAG}"
     local image_name=gcr.io/$PROJECT_ID/${service_name}
     echo "Building Service : $dir | $service_name | $image_name"
-    docker rmi $image_name
     cd $ROOT/$dir
     cat Dockerfile
     docker build -t $image_name .
     gcloud docker -- push $image_name
+    docker rmi $image_name
     echo
     echo
+}
+
+deploy_pod(){
+    # delete and deploy for now
+    cd $ROOT/deploy
+    echo $PWD
+    echo "Deploying Pod"
+    # set zone
+    gcloud config set compute/zone us-central1-a
+
+    # remove old artefacts
+    kubectl delete pod,service $podName
+    kubectl delete pod,service $uiPodName
+    kubectl get pod $podName
+
+    #gcloud container clusters delete $clusterName
+    #sleep 10
+
+    # create cluster and get credentials
+    #gcloud container clusters create $clusterName
+    #gcloud container clusters get-credentials $clusterName
+    #sleep 10
+
+    # create Pod
+    kubectl create -f explorer-pod.json
+    kubectl create -f explorer-ui-pod.json
+    kubectl get pods
+
+
+    # expose pod externally
+    kubectl expose pod $podName --type="LoadBalancer"
+    kubectl expose pod $uiPodName --type="LoadBalancer"
+    kubectl get services
 }
 
 main "$*"

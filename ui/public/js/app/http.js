@@ -6,7 +6,7 @@ define([
   "jquery"
 ], function ($) {
   function Service() {
-    this.url = "/api/";
+
   }
 
   Service.prototype.get = function (command, data) {

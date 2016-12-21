@@ -3,8 +3,8 @@
  */
 
 define([
-  "jquery", "app/places"
-], function ($, Places) {
+  "jquery", "app/services/PlacesService"
+], function ($, PlacesService) {
   function Tile(params, container, place) {
     if (!container) {
       throw new Error("Missing container for tile");
@@ -18,7 +18,7 @@ define([
     if (this.photos && this.photos.length) {
       var photoData = this.photos[0];
       var self = this;
-      Places.getPhotos(photoData).then(function (data) {
+      PlacesService.photos(photoData).then(function (data) {
         self.tile.css("background-image", "url(" + data.src + ")");
       })
     }
@@ -69,11 +69,11 @@ define([
   Tile.prototype.getDetails = function () {
     // place details...
     if (!this.reference) {
-      return Promise.reject("No Reference Availble");
+      return Promise.reject("No Reference Available.. Aborting");
     }
     var ref = this.reference;
     return new Promise(function (resolve, reject) {
-      Places.getDetails({ref: ref}).then(function (details) {
+      PlacesService.details(ref).then(function (details) {
         resolve(details);
       }).catch(function (e) {
         reject(e);
@@ -91,7 +91,7 @@ define([
     location.timestamp = new Date().getTime();
 
     /*return new Promise(function (resolve, reject) {
-      Places.getTimeDetails(location).then(function (details) {
+      PlacesService.getTimeDetails(location).then(function (details) {
         infoContainer.append($("<span/>").addClass("time").text(new Date(details.localTime).toString()));
         resolve();
       }).catch(function (e) {

@@ -4,26 +4,28 @@
 var when = require("when");
 var request = require("request");
 
-var API_KEY = require("../config").key;
+function EventsService(API_KEY, options) {
+  this.API_KEY = API_KEY;
+  this.url = "http://api.eventful.com/json/events/search?app_key=" + API_KEY;
+  this.settings = {};
+  if (options && options.proxy) {
+    this.settings.proxy = options.proxy;
+  }
+}
 
-module.exports.listEvents = function (place, proxy) {
-  if (!place || !place.city) {
-    return when.reject("Missing place information");
+EventsService.prototype.listEvents = function (params) {
+  if (!params || !params.place) {
+    return when.reject("Missing place name information");
   }
-  console.log("Getting Events: ", place);
-  var location = encodeURIComponent(place.city);
-  var url = "http://api.eventful.com/json/events/search?location=" + location + "&date=Future&app_key=" + API_KEY +
-    "&page_size=15";
-  if (place.type) {
-    url += "&q=" + place.type;
+  var location = encodeURIComponent(params.place);
+  var url = this.url + "&location=" + location + "&date=Future" + "&page_size=15";
+  if (params.type) {
+    url += "&q=" + params.type;
   }
-  var settings = {
+  var settings = Object.assign({}, this.settings, {
     url: url
-  };
-  if (proxy) {
-    settings.proxy = proxy;
-  }
-  console.log("Settings: ", settings);
+  });
+  console.log("Getting Events: ", params, settings);
   return when.promise(function (resolve, reject) {
     request(settings, function (err, response, body) {
       if (err) {
@@ -32,6 +34,9 @@ module.exports.listEvents = function (place, proxy) {
       if (response.statusCode === 200) {
         var data = JSON.parse(body);
         var list = (data && data.events && data.events.event) || [];
+        if (!list.length) {
+          return resolve(list);
+        }
         var events = list.map(function (event) {
           return {
             url: event.url,
@@ -48,4 +53,8 @@ module.exports.listEvents = function (place, proxy) {
       }
     })
   })
+};
+
+module.exports = function (API_KEY, config) {
+  return new EventsService(API_KEY, config);
 };

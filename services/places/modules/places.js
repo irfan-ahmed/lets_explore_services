@@ -5,53 +5,43 @@
 var when = require("when");
 var request = require("request");
 
-var API_KEY = require("../config").key;
+function PlacesService(API_KEY, options) {
+  this.API_KEY = API_KEY;
+  this.options = options;
+  this.placesURL = "https://maps.googleapis.com/maps/api/place/textsearch/json??language=en&key=" + API_KEY;
+  this.photosURL = "https://maps.googleapis.com/maps/api/place/photo?key=" + API_KEY;
+  this.detailsURL = "https://maps.googleapis.com/maps/api/place/details/json?key=" + API_KEY;
+  this.tzURL = "https://maps.googleapis.com/maps/api/timezone/json?key=" + API_KEY;
 
-module.exports.photos = function (params, proxy) {
-  var ref = params.photo_reference;
-  if (!ref) {
-    return when.reject("Missing photo reference");
+  this.settings = {};
+  if (options.proxy) {
+    this.settings.proxy = options.proxy;
   }
-  var width = params.width;
-  var height = params.height;
-  if (!width && !height) {
-    height = 250;
-  }
+}
 
-  var url = "https://maps.googleapis.com/maps/api/place/photo?photoreference=" + ref + "&key=" + API_KEY;
-  if (width) {
-    url += "&maxwidth=" + width;
+PlacesService.prototype.sightsToSee = function (placeInfo) {
+  if (!placeInfo || !placeInfo.place) {
+    return when.reject("Please specify the name of place to visit");
   }
-  if (height) {
-    url += "&maxheight=" + height;
-  }
-  return when.resolve(url);
-};
-
-module.exports.sightsToSee = function (placeInfo, proxy) {
-  if (!placeInfo || !placeInfo.city) {
-    return when.reject("Please specify the name of city to visit");
-  }
-  var query = encodeURIComponent(placeInfo.city + " point of interest");
-  var url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query +
-    "&language=en&key=" + API_KEY;
-  console.log("Getting places to see for :", url, proxy);
+  var query = encodeURIComponent(placeInfo.place + " point of interest");
+  var settings = Object.assign({}, this.settings, {
+    url: this.placesURL + "&query=" + query
+  });
+  console.log("Getting places to see for :", placeInfo, settings);
   return when.promise(function (resolve, reject) {
-    var settings = {
-      url: url
-    };
-    if (proxy) {
-      settings.proxy = proxy;
-    }
     request(settings, function (error, response, body) {
       if (!error && response.statusCode === 200) {
+        console.log("Data from google", body);
         var data = JSON.parse(body);
-        var list = data.results.filter(function (sight) {
-          return (sight.photos !== undefined && (sight.rating !== undefined));
-        });
-        list.sort(function (p1, p2) {
-          return p2.rating - p1.rating;
-        });
+        var list = [];
+        if (data.results && data.results.length) {
+          list = data.results.filter(function (sight) {
+            return (sight.photos !== undefined && (sight.rating !== undefined));
+          });
+          list.sort(function (p1, p2) {
+            return p2.rating - p1.rating;
+          });
+        }
         resolve(list);
       }
       if (error) {
@@ -61,15 +51,34 @@ module.exports.sightsToSee = function (placeInfo, proxy) {
   })
 };
 
-module.exports.placeDetails = function (place, proxy) {
-  var ref = place.ref;
-  var settings = {
-    url: "https://maps.googleapis.com/maps/api/place/details/json?reference=" + ref + "&key=" + API_KEY
-  };
-  if (proxy) {
-    settings.proxy = proxy;
+PlacesService.prototype.photos = function (params) {
+  var ref = params.photo_reference;
+  console.log("photos: ", ref);
+  if (!ref) {
+    return when.reject("Missing photo reference");
   }
-  console.log("Getting Place Details: ", settings);
+  var width = params.width;
+  var height = params.height;
+  if (!width && !height) {
+    height = 250;
+  }
+
+  var url = this.photosURL + "&photoreference=" + ref;
+  if (width) {
+    url += "&maxwidth=" + width;
+  }
+  if (height) {
+    url += "&maxheight=" + height;
+  }
+  return when.resolve(url);
+};
+
+PlacesService.prototype.placeDetails = function (place) {
+  var ref = place.ref;
+  var settings = Object.assign({}, this.settings, {
+    url: this.detailsURL + "&reference=" + ref
+  });
+  console.log("Getting Place Details: ", place, settings);
   return when.promise(function (resolve, reject) {
     request(settings, function (err, response, body) {
       if (err) {
@@ -77,7 +86,9 @@ module.exports.placeDetails = function (place, proxy) {
       }
       if (response.statusCode === 200) {
         var data = JSON.parse(body);
-        //console.log(data);
+        if (data && data.status !== "OK") {
+          return reject(data);
+        }
         var details = {
           url: data.result.url,
           offset: data.result.utc_offset,
@@ -105,16 +116,12 @@ module.exports.placeDetails = function (place, proxy) {
   })
 };
 
-module.exports.timeDetails = function (location, proxy) {
+PlacesService.prototype.timeDetails = function (location) {
   var cord = location.lat + "," + location.lng;
-  var settings = {
-    url: "https://maps.googleapis.com/maps/api/timezone/json?location=" + cord +
-    "&timestamp=" + location.timestamp + "&key=" + API_KEY
-  };
-  if (proxy) {
-    settings.proxy = proxy;
-  }
-  console.log("Getting Time: ", location, proxy, cord, settings);
+  var settings = Object.assign({}, this.settings, {
+    url: this.tzURL + "&location=" + cord + "&timestamp=" + location.timestamp
+  });
+  console.log("Getting Time: ", location, settings);
   return when.promise(function (resolve, reject) {
     request(settings, function (err, response, body) {
       console.log(err, response.statusCode, body);
@@ -134,5 +141,8 @@ module.exports.timeDetails = function (location, proxy) {
   })
 };
 
+module.exports = function (API_KEY, config) {
+  return new PlacesService(API_KEY, config);
+};
 
 

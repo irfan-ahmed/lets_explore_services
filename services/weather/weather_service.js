@@ -4,11 +4,20 @@
 
 var express = require('express');
 var bodyParser = require("body-parser");
-var weather = require("./modules/weather");
 var options = require("minimist")(process.argv.slice(2));
+var utils = require("service-utils");
 var config = require("./config");
 
+var weather = require("./modules/weather")(utils.getAPIKey("weather"), options);
+
 var app = express();
+// CORS
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, OPTIONS");
+  next();
+});
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}));
@@ -17,10 +26,20 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.get("/weather", function (req, res) {
-  weather.getWeather(req.query, options.proxy).then(function (weatherData) {
-    res.json({weather: weatherData});
-  }).catch(function (e) {
-    res.status(500, {error: e});
+  var key = utils.normalizeKey(req.url);
+  utils.fromRedis(key).then(function (value) {
+    console.log("Value from redis", key, value);
+    res.json(value);
+  }).catch(function () {
+    console.log("could not get key from redis");
+    weather.getWeather(req.query).then(function (weatherData) {
+      res.json(weatherData);
+      if (weatherData) {
+        utils.toRedis(key, weatherData, config.key_expiry);
+      }
+    }).catch(function (e) {
+      res.status(500).json({error: e});
+    })
   })
 });
 
